@@ -1,7 +1,7 @@
 //#include <stdint.h>
 #include "stm32g0xx.h"
 
-#define LED_PIN 5
+#define LED_PIN 4
 
 void main(void)
 {

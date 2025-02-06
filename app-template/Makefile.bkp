@@ -1,0 +1,12 @@
+all: main.elf
+
+main.elf: main.o system_stm32g0xx.o ../vendor/CMSIS/Device/ST/STM32G0/Source/Templates/gcc/startup_stm32g030xx.s
+	arm-none-eabi-gcc -specs=nano.specs -Wl,--gc-sections -Wl,--print-memory-usage -T ../STM32G030F6MX_FLASH.ld -o main.elf main.o system_stm32g0xx.o ../vendor/CMSIS/Device/ST/STM32G0/Source/Templates/gcc/startup_stm32g030xx.s
+
+main.o: ./src/main.c ../vendor/CMSIS/Device/ST/STM32G0/Source/Templates/system_stm32g0xx.c
+	arm-none-eabi-gcc -I. -c -ggdb3 -fno-common -ffunction-sections -fdata-sections -mcpu=cortex-m0plus -mthumb -Os ./src/main.c ../vendor/CMSIS/Device/ST/STM32G0/Source/Templates/system_stm32g0xx.c -I../vendor/CMSIS/CMSIS/Core/Include -I../vendor/CMSIS/Device/ST/STM32G0/Include -DSTM32G030xx
+
+
+flash: main.elf
+	openocd -f interface/cmsis-dap.cfg -f target/stm32g0x.cfg -c "program main.elf verify reset exit"
+

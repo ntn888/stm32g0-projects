@@ -1,0 +1,25 @@
+BDIR		= ./build
+
+all: $(BDIR)/main.elf
+
+$(BDIR)/main.elf: $(BDIR)/main.o $(BDIR)/system_stm32g0xx.o $(BDIR)/startup_stm32g030xx.o
+	arm-none-eabi-gcc -specs=nano.specs  -mcpu=cortex-m0plus -mthumb -Wl,--gc-sections -Wl,--print-memory-usage -Wl,--no-warn-rwx-segments -T../STM32G030F6MX_FLASH.ld -o $@ $(BDIR)/main.o $(BDIR)/system_stm32g0xx.o ../vendor/CMSIS/Device/ST/STM32G0/Source/Templates/gcc/startup_stm32g030xx.s
+
+$(BDIR)/main.o: ./src/main.c
+	@mkdir -p $(BDIR)
+	arm-none-eabi-gcc -o $@ -I./src/ -c -ggdb3 -fno-common -ffunction-sections -fdata-sections -mcpu=cortex-m0plus -mthumb -Os ./src/main.c -I../vendor/CMSIS/CMSIS/Core/Include -I../vendor/CMSIS/Device/ST/STM32G0/Include -DSTM32G030xx
+
+$(BDIR)/system_stm32g0xx.o: ../vendor/CMSIS/Device/ST/STM32G0/Source/Templates/system_stm32g0xx.c
+	@mkdir -p $(BDIR)
+	arm-none-eabi-gcc -o $@ -c -ggdb3 -fno-common -ffunction-sections -fdata-sections -mcpu=cortex-m0plus -mthumb -Os ../vendor/CMSIS/Device/ST/STM32G0/Source/Templates/system_stm32g0xx.c -I../vendor/CMSIS/CMSIS/Core/Include -I../vendor/CMSIS/Device/ST/STM32G0/Include -DSTM32G030xx
+
+$(BDIR)/startup_stm32g030xx.o: ../vendor/CMSIS/Device/ST/STM32G0/Source/Templates/gcc/startup_stm32g030xx.s
+	@mkdir -p $(BDIR)
+	arm-none-eabi-gcc -o $@ -mcpu=cortex-m0plus -mthumb -ggdb3 -Os -Wa,--warn -c ../vendor/CMSIS/Device/ST/STM32G0/Source/Templates/gcc/startup_stm32g030xx.s
+
+clean:
+	rm -rf $(BDIR)
+
+flash: $(BDIR)/main.elf
+	openocd -f interface/cmsis-dap.cfg -f target/stm32g0x.cfg -c "program $(BDIR)/main.elf verify reset exit"
+

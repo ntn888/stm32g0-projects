@@ -1,0 +1,82 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/arm-none-eabi-gcc",
+      "-I./src/",
+      "-c",
+      "-ggdb3",
+      "-fno-common",
+      "-ffunction-sections",
+      "-fdata-sections",
+      "-mcpu=cortex-m0plus",
+      "-mthumb",
+      "-Os",
+      "-I../vendor/CMSIS/CMSIS/Core/Include",
+      "-I../vendor/CMSIS/Device/ST/STM32G0/Include",
+      "-DSTM32G030xx",
+      "-o",
+      "build/main.o",
+      "./src/main.c"
+    ],
+    "directory": "/home/ajit/work/st/g0_proj/test-clock-config",
+    "file": "/home/ajit/work/st/g0_proj/test-clock-config/src/main.c",
+    "output": "/home/ajit/work/st/g0_proj/test-clock-config/build/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/arm-none-eabi-gcc",
+      "-c",
+      "-ggdb3",
+      "-fno-common",
+      "-ffunction-sections",
+      "-fdata-sections",
+      "-mcpu=cortex-m0plus",
+      "-mthumb",
+      "-Os",
+      "-I../vendor/CMSIS/CMSIS/Core/Include",
+      "-I../vendor/CMSIS/Device/ST/STM32G0/Include",
+      "-DSTM32G030xx",
+      "-o",
+      "build/system_stm32g0xx.o",
+      "../vendor/CMSIS/Device/ST/STM32G0/Source/Templates/system_stm32g0xx.c"
+    ],
+    "directory": "/home/ajit/work/st/g0_proj/test-clock-config",
+    "file": "/home/ajit/work/st/g0_proj/vendor/CMSIS/Device/ST/STM32G0/Source/Templates/system_stm32g0xx.c",
+    "output": "/home/ajit/work/st/g0_proj/test-clock-config/build/system_stm32g0xx.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/arm-none-eabi-gcc",
+      "-mcpu=cortex-m0plus",
+      "-mthumb",
+      "-ggdb3",
+      "-Os",
+      "-Wa,--warn",
+      "-c",
+      "-o",
+      "build/startup_stm32g030xx.o",
+      "../vendor/CMSIS/Device/ST/STM32G0/Source/Templates/gcc/startup_stm32g030xx.s"
+    ],
+    "directory": "/home/ajit/work/st/g0_proj/test-clock-config",
+    "file": "/home/ajit/work/st/g0_proj/vendor/CMSIS/Device/ST/STM32G0/Source/Templates/gcc/startup_stm32g030xx.s",
+    "output": "/home/ajit/work/st/g0_proj/test-clock-config/build/startup_stm32g030xx.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/arm-none-eabi-gcc",
+      "-c",
+      "-specs=nano.specs",
+      "-mcpu=cortex-m0plus",
+      "-mthumb",
+      "-T../STM32G030F6MX_FLASH.ld",
+      "./build/main.o",
+      "./build/system_stm32g0xx.o",
+      "-o",
+      "build/main.elf",
+      "../vendor/CMSIS/Device/ST/STM32G0/Source/Templates/gcc/startup_stm32g030xx.s"
+    ],
+    "directory": "/home/ajit/work/st/g0_proj/test-clock-config",
+    "file": "/home/ajit/work/st/g0_proj/vendor/CMSIS/Device/ST/STM32G0/Source/Templates/gcc/startup_stm32g030xx.s",
+    "output": "/home/ajit/work/st/g0_proj/test-clock-config/build/main.elf"
+  }
+]
